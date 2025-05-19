@@ -14,15 +14,20 @@ const Header = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold">TO DO LIST</h1>
-      <form action="">
+    <div className="flex flex-col mb-12">
+      <h1 className="text-center text-4xl font-bold">TO DO LIST</h1>
+      <form action="" className="flex justify-between gap-6 mt-4">
         <input
+          className="bg-Dark-700 h-12 w-[270px] rounded-lg p-4 shadow-md"
           id="input"
           type="text"
           placeholder="Ejercicio, Estudiar, Compras"
         />
-        <button type="submit" onClick={saveStorage}>
+        <button
+          className="bg-Dark-100 px-6 rounded-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white transition-all duration-300"
+          type="submit"
+          onClick={saveStorage}
+        >
           Agregar
         </button>
       </form>
