@@ -24,7 +24,7 @@ const Header = () => {
           placeholder="Ejercicio, Estudiar, Compras"
         />
         <button
-          className="bg-Dark-100 px-6 rounded-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white transition-all duration-300"
+          className="bg-Dark-100 px-6 rounded-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300"
           type="submit"
           onClick={saveStorage}
         >
