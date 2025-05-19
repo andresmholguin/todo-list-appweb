@@ -12,9 +12,16 @@ function App() {
     setTareas(tareasStorage);
   }, []);
 
+  function guardarTarea(tarea) {
+    const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
+    tareasStorage.push(tarea);
+    localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+    setTareas(tareasStorage);
+  }
+
   return (
-    <div className=" bg-Dark-900 text-white p-8 w-[460px] rounded-xl h-[600px]">
-      <Header />
+    <div className=" bg-Dark-900 text-white p-8 w-[460px] rounded-xl">
+      <Header guardarTarea={guardarTarea} />
       <Main tareas={tareas} />
     </div>
   );

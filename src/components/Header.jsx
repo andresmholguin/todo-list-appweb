@@ -1,4 +1,4 @@
-const Header = () => {
+const Header = ({ guardarTarea }) => {
   const saveStorage = (e) => {
     e.preventDefault();
     const input = document.getElementById("input");
@@ -6,9 +6,10 @@ const Header = () => {
     if (value) {
       value = value.trim();
       value = value.charAt(0).toUpperCase() + value.slice(1);
-      const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
-      tareas.push(value);
-      localStorage.setItem("tareas", JSON.stringify(tareas));
+      // const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+      // tareas.push(value);
+      // localStorage.setItem("tareas", JSON.stringify(tareas));
+      guardarTarea(value);
       input.value = "";
     }
   };
