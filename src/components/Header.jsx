@@ -1,4 +1,6 @@
-const Header = ({ guardarTarea }) => {
+import { useEffect } from "react";
+
+const Header = ({ guardarTarea, editando, setEditando }) => {
   const saveStorage = (e) => {
     e.preventDefault();
     const input = document.getElementById("input");
@@ -8,8 +10,21 @@ const Header = ({ guardarTarea }) => {
       value = value.charAt(0).toUpperCase() + value.slice(1);
       guardarTarea(value);
       input.value = "";
+      setEditando(false);
     }
   };
+
+  useEffect(() => {
+    const input = document.getElementById("input");
+    const btnEditar = document.getElementById("btnEditar");
+    if (editando) {
+      input.value = editando[0];
+      btnEditar.innerText = "Guardar";
+    } else {
+      input.value = "";
+      btnEditar.innerText = "Agregar";
+    }
+  }, [editando]);
 
   return (
     <div className="flex flex-col mb-12">
@@ -23,6 +38,7 @@ const Header = ({ guardarTarea }) => {
         />
         <button
           className="bg-Dark-100 px-6 rounded-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300"
+          id="btnEditar"
           type="submit"
           onClick={saveStorage}
         >

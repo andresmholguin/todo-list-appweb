@@ -5,7 +5,7 @@ import Main from "./components/Main";
 
 function App() {
   const [tareas, setTareas] = useState([]);
-  // const [nuevaTarea, setNuevaTarea] = useState(false);
+  const [editando, setEditando] = useState(false);
 
   useEffect(() => {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
@@ -28,8 +28,16 @@ function App() {
 
   return (
     <div className=" bg-Dark-900 text-white p-8 w-[460px] rounded-xl">
-      <Header guardarTarea={guardarTarea} />
-      <Main tareas={tareas} eliminarTarea={eliminarTarea} />
+      <Header
+        guardarTarea={guardarTarea}
+        editando={editando}
+        setEditando={setEditando}
+      />
+      <Main
+        tareas={tareas}
+        eliminarTarea={eliminarTarea}
+        setEditando={setEditando}
+      />
     </div>
   );
 }
