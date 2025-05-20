@@ -6,9 +6,6 @@ const Header = ({ guardarTarea }) => {
     if (value) {
       value = value.trim();
       value = value.charAt(0).toUpperCase() + value.slice(1);
-      // const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
-      // tareas.push(value);
-      // localStorage.setItem("tareas", JSON.stringify(tareas));
       guardarTarea(value);
       input.value = "";
     }

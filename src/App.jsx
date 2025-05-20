@@ -19,10 +19,17 @@ function App() {
     setTareas(tareasStorage);
   }
 
+  function eliminarTarea(tarea) {
+    const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
+    const nuevasTareas = tareasStorage.filter((item) => item !== tarea);
+    localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+    setTareas(nuevasTareas);
+  }
+
   return (
     <div className=" bg-Dark-900 text-white p-8 w-[460px] rounded-xl">
       <Header guardarTarea={guardarTarea} />
-      <Main tareas={tareas} />
+      <Main tareas={tareas} eliminarTarea={eliminarTarea} />
     </div>
   );
 }

@@ -1,7 +1,12 @@
 // import { Delete } from "../assets/icons/delete.svg";
 // import { Edit } from "../assets/icons/edit.svg";
 
-const Main = ({ tareas }) => {
+const Main = ({ tareas, eliminarTarea }) => {
+  const eliminar = (tarea) => {
+    console.log(tarea);
+    eliminarTarea(tarea);
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Tareas</h1>
@@ -13,8 +18,13 @@ const Main = ({ tareas }) => {
           >
             {tarea}
             <div className="flex gap-2">
-              <button className="px-4 bg-Dark-100 rounded-sm">+</button>
-              <button className="px-4 bg-Dark-100 rounded-sm">-</button>
+              <button className="px-4 bg-Dark-100 rounded-sm">/</button>
+              <button
+                onClick={() => eliminar(tarea)}
+                className="px-4 bg-Dark-100 rounded-sm cursor-pointer"
+              >
+                -
+              </button>
             </div>
           </li>
         ))}
