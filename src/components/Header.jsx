@@ -1,18 +1,34 @@
 import { useEffect } from "react";
 
-const Header = ({ guardarTarea, editando, setEditando }) => {
+const Header = ({ guardarTarea, editando }) => {
   const saveStorage = (e) => {
     e.preventDefault();
+
     const input = document.getElementById("input");
     let value = input.value;
     if (value) {
       value = value.trim();
       value = value.charAt(0).toUpperCase() + value.slice(1);
-      guardarTarea(value);
+      // const valor = [value, editando[1]];
+      // setEditando(valor);
+      guardarTarea(value, editando[1]);
       input.value = "";
-      setEditando(false);
+      // setEditando(false);
     }
   };
+
+  // const editar = (e) => {
+  //   e.preventDefault();
+  //   const input = document.getElementById("input");
+  //   let value = input.value;
+  //   if (value) {
+  //     value = value.trim();
+  //     value = value.charAt(0).toUpperCase() + value.slice(1);
+  //     guardarTarea(value);
+  //     input.value = "";
+  //     setEditando(false);
+  //   }
+  // }
 
   useEffect(() => {
     const input = document.getElementById("input");

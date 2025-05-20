@@ -12,11 +12,20 @@ function App() {
     setTareas(tareasStorage);
   }, []);
 
-  function guardarTarea(tarea) {
+  function guardarTarea(tarea, index) {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    tareasStorage.push(tarea);
-    localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-    setTareas(tareasStorage);
+    if (!editando) {
+      tareasStorage.push(tarea);
+      localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+      setTareas(tareasStorage);
+    } else {
+      console.log("inicia guardar");
+      tareasStorage[index] = tarea;
+      // console.log(tareasStorage[index]);
+
+      localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+      setTareas(tareasStorage);
+    }
   }
 
   function eliminarTarea(tarea) {
