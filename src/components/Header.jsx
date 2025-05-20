@@ -8,7 +8,8 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
     let value = input.value;
     if (value) {
       value = value.trim();
-      value = value.toUpperCase();
+      value = value.toLowerCase();
+      value = value.charAt(0).toUpperCase() + value.slice(1);
       // const valor = [value, editando[1]];
       // setEditando(valor);
       guardarTarea(value, editando[1]);
