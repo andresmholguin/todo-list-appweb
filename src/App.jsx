@@ -16,22 +16,22 @@ function App() {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     if (!editando) {
       tareasStorage.push(tarea);
-      localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-      setTareas(tareasStorage);
+      // localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+      // setTareas(tareasStorage);
     } else {
-      console.log("inicia guardar");
+      // console.log("inicia guardar");
       tareasStorage[index] = tarea;
       // console.log(tareasStorage[index]);
-
-      localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-      setTareas(tareasStorage);
     }
+    localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+    setTareas(tareasStorage);
   }
 
   function eliminarTarea(tarea) {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     const nuevasTareas = tareasStorage.filter((item) => item !== tarea);
     localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+    setEditando(false);
     setTareas(nuevasTareas);
   }
 
