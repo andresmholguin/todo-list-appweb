@@ -46,6 +46,7 @@ function App() {
         tareas={tareas}
         eliminarTarea={eliminarTarea}
         setEditando={setEditando}
+        editando={editando}
       />
     </div>
   );

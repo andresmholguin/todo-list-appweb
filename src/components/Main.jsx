@@ -24,14 +24,14 @@ const Main = ({ tareas, eliminarTarea, setEditando }) => {
             <div className="flex gap-2">
               <button
                 onClick={() => editar(tarea, index)}
-                className="px-3 py-2 hover:bg-Dark-400 bg-Dark-100 cursor-pointer rounded-sm transition-all duration-300"
+                className="px-3 py-2 bg-Dark-100 cursor-pointer rounded-sm transition-all duration-300 hover:bg-amber-500"
               >
                 <EditIcon />
               </button>
               {/* <Delete /> */}
               <button
                 onClick={() => eliminar(tarea)}
-                className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-Dark-400 transition-all duration-300"
+                className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-red-700 transition-all duration-300"
               >
                 <DeleteIcon />
               </button>
