@@ -1,5 +1,6 @@
-// import { Delete } from "../assets/icons/delete.svg";
-// import { Edit } from "../assets/icons/edit.svg";
+// import { ReactComponent as Edit } from "../assets/icons/edit.svg";
+import EditIcon from "./icons/EditIcon";
+import DeleteIcon from "./icons/DeleteIcon";
 
 const Main = ({ tareas, eliminarTarea, setEditando }) => {
   const eliminar = (tarea) => {
@@ -23,15 +24,16 @@ const Main = ({ tareas, eliminarTarea, setEditando }) => {
             <div className="flex gap-2">
               <button
                 onClick={() => editar(tarea, index)}
-                className="px-4 bg-Dark-100 rounded-sm"
+                className="px-4 py-2 bg-Dark-100 rounded-sm"
               >
-                /
+                <EditIcon />
               </button>
+              {/* <Delete /> */}
               <button
                 onClick={() => eliminar(tarea)}
-                className="px-4 bg-Dark-100 rounded-sm cursor-pointer"
+                className="px-4 py-2 bg-Dark-100 rounded-sm cursor-pointer"
               >
-                -
+                <DeleteIcon />
               </button>
             </div>
           </li>
