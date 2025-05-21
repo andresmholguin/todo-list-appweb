@@ -18,20 +18,20 @@ const Main = ({ tareas, eliminarTarea, setEditando }) => {
         {tareas.map((tarea, index) => (
           <li
             key={index}
-            className="flex justify-between items-center bg-Dark-800 p-4 mb-2 rounded-lg"
+            className="flex justify-between items-center bg-Dark-800 p-3 mb-2 rounded-lg transition-all duration-300"
           >
             {tarea}
             <div className="flex gap-2">
               <button
                 onClick={() => editar(tarea, index)}
-                className="px-4 py-2 bg-Dark-100 rounded-sm"
+                className="px-3 py-2 hover:bg-Dark-400 bg-Dark-100 cursor-pointer rounded-sm transition-all duration-300"
               >
                 <EditIcon />
               </button>
               {/* <Delete /> */}
               <button
                 onClick={() => eliminar(tarea)}
-                className="px-4 py-2 bg-Dark-100 rounded-sm cursor-pointer"
+                className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-Dark-400 transition-all duration-300"
               >
                 <DeleteIcon />
               </button>

@@ -1,8 +1,8 @@
 const Delete = () => {
   return (
     <svg
-      width="24px"
-      height="24px"
+      width="16px"
+      height="16px"
       viewBox="0 0 1024 1024"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
