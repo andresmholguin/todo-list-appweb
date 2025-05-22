@@ -2,12 +2,16 @@
 import EditIcon from "./icons/EditIcon";
 import DeleteIcon from "./icons/DeleteIcon";
 
-const Main = ({ tareas, eliminarTarea, setEditando }) => {
+const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
   const eliminar = (tarea) => {
     eliminarTarea(tarea);
   };
 
   const editar = (tarea, index) => {
+    if (editando[1] === index) {
+      setEditando(false);
+      return;
+    }
     setEditando([tarea, index]);
   };
 
@@ -27,7 +31,9 @@ const Main = ({ tareas, eliminarTarea, setEditando }) => {
               <div className="flex gap-2">
                 <button
                   onClick={() => editar(tarea, index)}
-                  className="px-3 py-2 bg-Dark-100 cursor-pointer rounded-sm transition-all duration-300 hover:bg-amber-500"
+                  className={`px-3 py-2 ${
+                    editando[1] == index ? "bg-amber-500" : "bg-Dark-100"
+                  } cursor-pointer rounded-sm transition-all duration-300 hover:bg-amber-500`}
                 >
                   <EditIcon />
                 </button>

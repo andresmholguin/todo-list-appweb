@@ -52,11 +52,11 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
           className="bg-Dark-700 h-12 w-[100%] rounded-lg p-4 outline-none shadow-xl/30 focus:shadow-xl/50 focus:shadow-Dark-400/70 transition-all duration-200"
           id="input"
           type="text"
-          placeholder="Ejercicio, Estudiar, Compras"
+          placeholder="Ejercicio, Estudiar, Compras ..."
         />
 
         <button
-          className="absolute h-[48px] w-[120px] right-0 bg-Dark-100 px-6  rounded-r-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300"
+          className="absolute h-[48px] w-[80px] text-sm right-0 bg-Dark-100 text-center  rounded-r-lg shadow-md cursor-pointer text-Dark-900 font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300"
           id="btnSubmit"
           type="submit"
           onClick={saveStorage}

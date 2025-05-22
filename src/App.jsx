@@ -20,6 +20,7 @@ function App() {
       // setTareas(tareasStorage);
     } else {
       // console.log("inicia guardar");
+
       tareasStorage[index] = tarea;
       // console.log(tareasStorage[index]);
     }
@@ -36,7 +37,7 @@ function App() {
   }
 
   return (
-    <div className=" bg-Dark-900 text-white p-8 w-[460px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
+    <div className=" bg-Dark-900 text-white p-8 sm:w-[520px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <Header
         guardarTarea={guardarTarea}
         editando={editando}
