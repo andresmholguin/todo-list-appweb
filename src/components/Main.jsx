@@ -17,15 +17,16 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
       showCancelButton: true,
       confirmButtonColor: "#27aee0",
       cancelButtonColor: "var(--color-red-700)",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "¡Si, eliminar!",
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           theme: "dark",
           width: "27em",
           background: "#151a21",
-          title: "Deleted!",
-          text: "Your file has been deleted.",
+          title: "Eliminada!",
+          text: "La tarea ha sido eliminada.",
           icon: "success",
           confirmButtonColor: "#27aee0",
         });
