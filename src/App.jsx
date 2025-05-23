@@ -16,13 +16,8 @@ function App() {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     if (!editando) {
       tareasStorage.push(tarea);
-      // localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-      // setTareas(tareasStorage);
     } else {
-      // console.log("inicia guardar");
-
       tareasStorage[index] = tarea;
-      // console.log(tareasStorage[index]);
     }
     localStorage.setItem("tareas", JSON.stringify(tareasStorage));
     setTareas(tareasStorage);
