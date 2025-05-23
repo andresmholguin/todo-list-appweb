@@ -2,7 +2,34 @@
 import EditIcon from "./icons/EditIcon";
 import DeleteIcon from "./icons/DeleteIcon";
 
+import Swal from "sweetalert2";
+
 const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
+  function alertDelete(tarea) {
+    Swal.fire({
+      theme: "dark",
+      width: "27em",
+      background: "#151a21",
+      title: "Confirmar eliminación",
+      text: "Esta seguro que desea eliminar esta tarea?",
+
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#27aee0",
+      cancelButtonColor: "var(--color-red-700)",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        eliminar(tarea);
+      }
+    });
+  }
+
   const eliminar = (tarea) => {
     eliminarTarea(tarea);
   };
@@ -39,7 +66,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
                 </button>
                 {/* <Delete /> */}
                 <button
-                  onClick={() => eliminar(tarea)}
+                  onClick={() => alertDelete(tarea)}
                   className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-red-700 transition-all duration-300"
                 >
                   <DeleteIcon />
