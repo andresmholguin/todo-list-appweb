@@ -11,7 +11,6 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
       background: "#151a21",
       title: "Confirmar eliminación",
       text: "Esta seguro que desea eliminar esta tarea?",
-
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#27aee0",
@@ -20,6 +19,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
+        eliminar(tarea);
         Swal.fire({
           theme: "dark",
           width: "27em",
@@ -29,7 +29,9 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
           icon: "success",
           confirmButtonColor: "#27aee0",
         });
-        eliminar(tarea);
+        setTimeout(() => {
+          Swal.close();
+        }, 2000);
       }
     });
   }

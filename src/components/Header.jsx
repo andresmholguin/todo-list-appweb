@@ -43,7 +43,7 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
   }, [editando]);
 
   return (
-    <div className="flex flex-col mb-12">
+    <div className="flex flex-col mb-5">
       <h1 className="text-center text-4xl font-bold">TO DO LIST</h1>
       <form action="" className="flex justify-between mt-4">
         <input
