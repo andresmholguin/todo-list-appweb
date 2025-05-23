@@ -21,9 +21,13 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
+          theme: "dark",
+          width: "27em",
+          background: "#151a21",
           title: "Deleted!",
           text: "Your file has been deleted.",
           icon: "success",
+          confirmButtonColor: "#27aee0",
         });
         eliminar(tarea);
       }
