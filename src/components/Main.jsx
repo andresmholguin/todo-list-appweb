@@ -1,4 +1,3 @@
-// import { ReactComponent as Edit } from "../assets/icons/edit.svg";
 import EditIcon from "./icons/EditIcon";
 import DeleteIcon from "./icons/DeleteIcon";
 
