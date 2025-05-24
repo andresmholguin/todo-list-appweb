@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import SelectCategory from "./selectCategory";
 
 const Header = ({ guardarTarea, editando, setEditando }) => {
   const saveStorage = (e) => {
@@ -8,7 +9,6 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
     let value = input.value;
     if (value) {
       value = value.trim();
-      // value = value.toLowerCase();
       value = value.charAt(0).toUpperCase() + value.slice(1);
       guardarTarea(value, editando[1]);
       input.value = "";
@@ -68,28 +68,7 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
             Agregar
           </button>
         </div>
-        <select
-          name="category"
-          id="category"
-          className="mt-4 bg-Dark-700 rounded-lg py-1 px-2"
-        >
-          <option value="none" selected disabled hidden>
-            Categoría
-          </option>
-          <option value="importante" className="bg-red-500/70">
-            Importante
-          </option>
-          <option value="trabajo" className="bg-amber-500/70">
-            Trabajo
-          </option>
-          <option value="estudio" className="bg-cyan-500/70">
-            Estudio
-          </option>
-          <option value="personal" className="bg-emerald-500/70">
-            Personal
-          </option>
-          <option value="otros">Otros</option>
-        </select>
+        <SelectCategory />
       </form>
     </div>
   );
