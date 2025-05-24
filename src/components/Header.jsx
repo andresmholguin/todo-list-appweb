@@ -45,26 +45,51 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
   return (
     <div className="flex flex-col mb-5">
       <h1 className="text-center text-4xl font-bold">TO DO LIST</h1>
-      <form action="" className="flex justify-between mt-4">
-        <input
-          className={`bg-Dark-700 h-12 w-[100%] rounded-l-lg p-4 outline-none shadow-xl/30 focus:shadow-xl/50 ${
-            editando ? "focus:shadow-amber-500/70" : "focus:shadow-Dark-400/70"
-          } transition-all duration-200`}
-          id="input"
-          type="text"
-          placeholder="Ejercicio, Estudiar, Compras ..."
-        />
-
-        <button
-          className={`h-[48px] w-[100px] text-sm right-0 text-Dark-900 ${
-            editando ? "bg-amber-500" : " bg-Dark-100"
-          } text-center  rounded-r-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300`}
-          id="btnSubmit"
-          type="submit"
-          onClick={saveStorage}
+      <form action="" className="mt-4">
+        <div className="flex justify-between">
+          <input
+            className={`bg-Dark-700 h-12 w-[100%] rounded-l-lg p-4 outline-none shadow-xl/30 focus:shadow-xl/50 ${
+              editando
+                ? "focus:shadow-amber-500/70"
+                : "focus:shadow-Dark-400/70"
+            } transition-all duration-200`}
+            id="input"
+            type="text"
+            placeholder="Ejercicio, Estudiar, Compras ..."
+          />
+          <button
+            className={`h-[48px] w-[100px] text-sm right-0 text-Dark-900 ${
+              editando ? "bg-amber-500" : " bg-Dark-100"
+            } text-center  rounded-r-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300`}
+            id="btnSubmit"
+            type="submit"
+            onClick={saveStorage}
+          >
+            Agregar
+          </button>
+        </div>
+        <select
+          name="classification"
+          id="classification"
+          className="mt-4 bg-Dark-700 rounded-lg py-1 px-2"
         >
-          Agregar
-        </button>
+          <option value="none" selected disabled hidden>
+            Clasificación
+          </option>
+          <option value="importante" className="bg-red-500/70">
+            Importante
+          </option>
+          <option value="trabajo" className="bg-amber-500/70">
+            Trabajo
+          </option>
+          <option value="estudio" className="bg-cyan-500/70">
+            Estudio
+          </option>
+          <option value="personal" className="bg-emerald-500/70">
+            Personal
+          </option>
+          <option value="otros">Otros</option>
+        </select>
       </form>
     </div>
   );
