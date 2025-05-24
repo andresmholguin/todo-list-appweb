@@ -69,12 +69,12 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
           </button>
         </div>
         <select
-          name="classification"
-          id="classification"
+          name="category"
+          id="category"
           className="mt-4 bg-Dark-700 rounded-lg py-1 px-2"
         >
           <option value="none" selected disabled hidden>
-            Clasificación
+            Categoría
           </option>
           <option value="importante" className="bg-red-500/70">
             Importante
