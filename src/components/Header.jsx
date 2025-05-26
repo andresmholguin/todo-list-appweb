@@ -68,9 +68,8 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
             Agregar
           </button>
         </div>
-        <div className="hidden">
-          <SelectCategory />
-        </div>
+
+        <SelectCategory />
       </form>
     </div>
   );
