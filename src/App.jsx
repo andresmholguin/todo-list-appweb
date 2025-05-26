@@ -15,12 +15,6 @@ function App() {
   function guardarTarea(tarea, index) {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     if (!editando) {
-      // const nuevaTarea = {
-      //   id: "0001111",
-      //   tarea: tarea,
-      //   category: "none",
-      // };
-      // console.log(nuevaTarea);
       tareasStorage.push(tarea);
     } else {
       tareasStorage[index] = tarea;
