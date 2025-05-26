@@ -13,7 +13,7 @@ const DateTask = ({ dateTask, setDateTask }) => {
     <div>
       <input
         type="date"
-        className="rounded-lg py-1 pl-3 outline-0 bg-Dark-700 w-[130px]"
+        className="rounded-lg py-1 pl-3 outline-0 bg-Dark-700 h-12 w-[150px]"
         name="dateTask"
         id="dateTask"
         value={dateTask}

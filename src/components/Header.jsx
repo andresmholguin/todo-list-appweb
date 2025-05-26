@@ -59,7 +59,7 @@ const Header = ({
       <h1 className="text-center text-4xl font-bold">TO DO LIST</h1>
       <form action="" className="mt-4">
         <input
-          className={`bg-Dark-700 h-12 w-[100%] rounded-lg p-4 outline-none shadow-xl/30 focus:shadow-xl/50 ${
+          className={`bg-Dark-700 h-12 w-full rounded-lg p-4 outline-none shadow-xl/30 focus:shadow-xl/50 ${
             editando ? "focus:shadow-amber-500/70" : "focus:shadow-Dark-400/70"
           } transition-all duration-200`}
           id="input"
@@ -67,11 +67,13 @@ const Header = ({
           placeholder="Ejercicio, Estudiar, Compras ..."
         />
 
-        <div className="flex justify-between gap-3 mt-4">
-          <SelectCategory category={category} setCategory={setCategory} />
-          <DateTask dateTask={dateTask} setDateTask={setDateTask} />
+        <div className="xl:flex xl:justify-between xl:gap-3 mt-4">
+          <div className="flex justify-between h-12 mb-4">
+            <SelectCategory category={category} setCategory={setCategory} />
+            <DateTask dateTask={dateTask} setDateTask={setDateTask} />
+          </div>
           <button
-            className={`h-[32px] w-[100px] text-sm right-0 text-Dark-900 ${
+            className={`h-[32px] xl:w-[100px] w-[100%] text-sm right-0 text-Dark-900 ${
               editando ? "bg-amber-500" : " bg-Dark-100"
             } text-center  rounded-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300`}
             id="btnSubmit"

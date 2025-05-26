@@ -40,7 +40,7 @@ const SelectCategory = ({ category, setCategory }) => {
       <select
         name="category"
         id="category"
-        className={`${bgSelect} rounded-lg py-1 px-2 outline-0`}
+        className={`${bgSelect} rounded-lg py-1 px-2 outline-0 h-12 w-[150px]`}
         onChange={handleSelect}
         value={category}
         required

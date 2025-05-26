@@ -61,7 +61,9 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
               key={index}
               className="flex justify-between items-center bg-Dark-800 p-3 mb-2 rounded-lg transition-all duration-300"
             >
-              {tarea.value ? tarea.value : tarea}
+              <span className="pr-3 w-[610px] overflow-hidden text-ellipsis">
+                {tarea.value ? tarea.value : tarea}
+              </span>
               <div className="flex gap-2">
                 <button
                   onClick={() => editar(tarea, index)}
