@@ -67,13 +67,13 @@ const Header = ({
           placeholder="Ejercicio, Estudiar, Compras ..."
         />
 
-        <div className="xl:flex xl:justify-between xl:gap-3 mt-4">
-          <div className="flex justify-between h-12 mb-4">
+        <div className="lg:flex lg:justify-between lg:gap-4 mt-4">
+          <div className="flex justify-between gap-4 h-12 mb-4">
             <SelectCategory category={category} setCategory={setCategory} />
             <DateTask dateTask={dateTask} setDateTask={setDateTask} />
           </div>
           <button
-            className={`h-[32px] xl:w-[100px] w-[100%] text-sm right-0 text-Dark-900 ${
+            className={`h-[32px] lg:w-[100px] w-full  text-sm right-0 text-Dark-900 ${
               editando ? "bg-amber-500" : " bg-Dark-100"
             } text-center  rounded-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300`}
             id="btnSubmit"
