@@ -60,7 +60,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
               key={index}
               className="flex justify-between items-center bg-Dark-800 p-3 mb-2 rounded-lg transition-all duration-300"
             >
-              <span className="pr-3 overflow-hidden text-ellipsis">
+              <span className="pr-3 w-[610px] overflow-hidden text-ellipsis">
                 {console.log(tarea)}
                 {tarea}
               </span>
