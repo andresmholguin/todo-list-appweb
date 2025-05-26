@@ -38,7 +38,7 @@ function App() {
   }
 
   return (
-    <div className=" bg-Dark-900 text-white p-8 sm:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
+    <div className=" bg-Dark-900 text-white p-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <Header
         guardarTarea={guardarTarea}
         editando={editando}
