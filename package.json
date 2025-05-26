@@ -11,12 +11,14 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
     "@tailwindcss/vite": "^4.1.7",
     "gh-pages": "^6.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sweetalert2": "^11.21.2",
     "tailwindscss": "^0.3.0",
+    "uuid": "^11.1.0",
     "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {

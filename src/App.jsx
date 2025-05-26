@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import supabase from "./supabase-client";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -6,32 +7,68 @@ import Main from "./components/Main";
 function App() {
   const [tareas, setTareas] = useState([]);
   const [editando, setEditando] = useState(false);
+  const [category, setCategory] = useState("none");
+  const [dateTask, setDateTask] = useState("");
 
   useEffect(() => {
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     setTareas(tareasStorage);
   }, []);
 
-  function guardarTarea(tarea, index) {
-    const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    if (!editando) {
-      // const nuevaTarea = {
-      //   id: "0001111",
-      //   tarea: tarea,
-      //   category: "none",
-      // };
-      // console.log(nuevaTarea);
-      tareasStorage.push(tarea);
+  // function guardarTarea(value, index, category, dateTask) {
+  //   const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
+  //   const uuid = uuidv4();
+  //   const tarea = {
+  //     id: uuid,
+  //     value,
+  //     category,
+  //     dateTask,
+  //   };
+  //   if (!editando) {
+  //     tareasStorage.push(tarea);
+  //   } else {
+  //     tareasStorage[index] = tarea;
+  //   }
+  //   localStorage.setItem("tareas", JSON.stringify(tareasStorage));
+  //   setTareas(tareasStorage);
+  //   setEditando(false);
+  //   setCategory("none");
+  //   setDateTask("");
+  // }
+
+  const guardarTarea = async (value, category, dateTask) => {
+    const newTaskData = {
+      task: value,
+      category: category,
+      dateTask: dateTask,
+      isCompleted: false,
+    };
+    const { data, error } = await supabase
+      .from("TodoList")
+      .insert([newTaskData])
+      .single();
+    if (error) {
+      console.error("Error al guardar la tarea:", error);
+      return;
     } else {
-      tareasStorage[index] = tarea;
+      setTareas((prevTareas) => [...prevTareas, data]);
+      console.log(tareas);
+      resetCampos();
     }
-    localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-    setTareas(tareasStorage);
+  };
+
+  function resetCampos() {
+    setEditando(false);
+    setCategory("none");
+    setDateTask("");
   }
 
   function eliminarTarea(tarea) {
+    console.log(tarea);
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    const nuevasTareas = tareasStorage.filter((item) => item !== tarea);
+    const nuevasTareas = tareasStorage.filter(
+      (item) => item.value !== tarea.value
+    );
     localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
     setEditando(false);
     setTareas(nuevasTareas);
@@ -43,6 +80,10 @@ function App() {
         guardarTarea={guardarTarea}
         editando={editando}
         setEditando={setEditando}
+        category={category}
+        setCategory={setCategory}
+        dateTask={dateTask}
+        setDateTask={setDateTask}
       />
       <Main
         tareas={tareas}

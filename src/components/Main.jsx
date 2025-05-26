@@ -47,6 +47,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
     }
     setEditando([tarea, index]);
   };
+  console.log(tareas);
 
   return (
     <div>
@@ -60,7 +61,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
               key={index}
               className="flex justify-between items-center bg-Dark-800 p-3 mb-2 rounded-lg transition-all duration-300"
             >
-              {tarea}
+              {tarea.value ? tarea.value : tarea}
               <div className="flex gap-2">
                 <button
                   onClick={() => editar(tarea, index)}
@@ -70,7 +71,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
                 >
                   <EditIcon />
                 </button>
-                {/* <Delete /> */}
+
                 <button
                   onClick={() => alertDelete(tarea)}
                   className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-red-700 transition-all duration-300"

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { iconAlert } from "../assets/icons/exclamation.png ";
 
-const SelectCategory = () => {
-  const [category, setCategory] = useState("none");
+const SelectCategory = ({ category, setCategory }) => {
   const [bgSelect, setBgSelect] = useState("bg-Dark-700");
 
   const optionsSelect = [
@@ -29,16 +28,24 @@ const SelectCategory = () => {
     }
   };
 
+  useEffect(() => {
+    if (category == "none") {
+      setBgSelect("bg-Dark-700");
+    }
+  }, [category]);
+  //   console.log(category);
+
   return (
     <div>
       <select
         name="category"
         id="category"
-        className={`mt-4 ${bgSelect} bg-Dark-700 rounded-lg py-1 px-2 outline-0`}
+        className={`${bgSelect} rounded-lg py-1 px-2 outline-0`}
         onChange={handleSelect}
         value={category}
+        required
       >
-        <option value="none" disabled hidden>
+        <option value="none" disabled>
           Categoría
         </option>
         <option value="importante" className="bg-red-500/70">
@@ -50,7 +57,7 @@ const SelectCategory = () => {
         <option value="estudio" className="bg-cyan-500/70">
           Estudio
         </option>
-        <option value="personal" className="bg-emerald-500/70">
+        <option value="personal" className="bg-green-500/70">
           Personal
         </option>
         <option value="otros">Otros</option>
