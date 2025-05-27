@@ -6,8 +6,6 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import LoginAuth from "./components/LoginAuth";
 
-import { useUser } from "@clerk/clerk-react";
-
 /**
  * Main application component for managing the Todo list.
  * It handles fetching, creating, updating, and deleting tasks,
@@ -23,8 +21,6 @@ function App() {
   // State for the selected date of a task
   const [dateTask, setDateTask] = useState("");
 
-  const user = useUser();
-
   /**
    * Validates and syncs tasks from localStorage to the Supabase "TodoList" table.
    * Retrieves tasks from 'localStorageTasks', transforms them to the required schema,
@@ -34,7 +30,7 @@ function App() {
   const validateLocalStorageAndSync = async () => {
     console.log("Checking localStorage for tasks...");
     try {
-      const localTasks = localStorage.getItem("tareas");
+      const localTasks = localStorage.getItem("localStorageTasks");
       if (localTasks) {
         console.log("Tasks found, attempting to save to DB...");
         const parsedTasks = JSON.parse(localTasks);
@@ -66,7 +62,7 @@ function App() {
               console.log(
                 "Tasks saved to DB successfully, clearing localStorage."
               );
-              localStorage.removeItem("tareas");
+              localStorage.removeItem("localStorageTasks");
             }
           } catch (dbError) {
             console.error("Exception during DB insert operation:", dbError);
@@ -74,7 +70,7 @@ function App() {
         } else {
           console.log("No tasks to insert or data is not in expected format.");
           // Optionally, clear localStorage if the data is malformed and unusable
-          // localStorage.removeItem('tareas');
+          // localStorage.removeItem('localStorageTasks');
         }
       } else {
         console.log("No tasks found in localStorage.");
@@ -82,7 +78,7 @@ function App() {
     } catch (error) {
       console.error("Error processing tasks from localStorage:", error);
       // Potentially corrupted data in localStorage, consider removing it
-      // localStorage.removeItem('tareas');
+      // localStorage.removeItem('localStorageTasks');
     }
   };
 
@@ -284,7 +280,6 @@ function App() {
   return (
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <LoginAuth />
-      <h3>{user ? user.user.fullName : "sinnombre"}</h3>
       <Header
         guardarTarea={guardarTarea}
         editando={editando}
