@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import supabase from "./supabase-client";
+import Swal from "sweetalert2";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -28,7 +29,6 @@ function App() {
       .subscribe();
 
     // Limpiar la suscripción al desmontar el componente
-    console.log(tareas);
     return () => {
       supabase.removeChannel(channel);
     };
@@ -42,11 +42,17 @@ function App() {
         setTareas((prevTareas) => [...prevTareas, payload.new]);
         break;
       case "UPDATE":
-        setTareas((prevTareas) =>
-          prevTareas.map((tarea) =>
-            tarea.id === payload.new.id ? payload.new : tarea
-          )
-        );
+        if (payload.new.delete === true) {
+          setTareas((prevTareas) =>
+            prevTareas.filter((tarea) => tarea.id !== payload.new.id)
+          );
+        } else {
+          setTareas((prevTareas) =>
+            prevTareas.map((tarea) =>
+              tarea.id === payload.new.id ? payload.new : tarea
+            )
+          );
+        }
         break;
       case "DELETE":
         setTareas((prevTareas) =>
@@ -67,6 +73,11 @@ function App() {
 
     if (error) {
       console.error("Error al obtener las tareas:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Error fetching tasks: ${error.message}`,
+      });
     } else {
       setTareas(data);
     }
@@ -81,52 +92,52 @@ function App() {
     };
 
     if (editando) {
-      // Actualizar tarea existente
-      // console.log(editando);
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("TodoList")
         .update(newTaskData)
-        .eq("id", id)
-        .single();
+        .eq("id", id);
       if (error) {
         console.error("Error al actualizar la tarea:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Error updating task: ${error.message}`,
+        });
         return;
       } else {
-        setTareas((prevTareas) =>
-          prevTareas.map((tarea) =>
-            tarea.id === id ? { ...tarea, data } : tarea
-          )
-        );
+        Swal.fire({
+          icon: "success",
+          title: "Updated!",
+          text: "Task updated successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         resetCampos();
       }
       return;
     } else {
       // Insertar nueva tarea
-      const { data, error } = await supabase
-        .from("TodoList")
-        .insert([newTaskData])
-        .single();
+      const { error } = await supabase.from("TodoList").insert([newTaskData]);
       if (error) {
         console.error("Error al guardar la tarea:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Error saving task: ${error.message}`,
+        });
         return;
       } else {
-        setTareas((prevTareas) => [...prevTareas, data]);
+        // setTareas((prevTareas) => [...prevTareas, data]);
+        Swal.fire({
+          icon: "success",
+          title: "Saved!",
+          text: "Task saved successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         resetCampos();
       }
     }
-
-    // const { data, error } = await supabase
-    //   .from("TodoList")
-    //   .insert([newTaskData])
-    //   .single();
-    // if (error) {
-    //   console.error("Error al guardar la tarea:", error);
-    //   return;
-    // } else {
-    //   setTareas((prevTareas) => [...prevTareas, data]);
-    //   console.log(tareas);
-    //   resetCampos();
-    // }
   };
 
   function resetCampos() {
@@ -136,31 +147,19 @@ function App() {
   }
 
   const eliminarTarea = async (tarea) => {
-    console.log(tarea);
-    // const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    // const nuevasTareas = tareasStorage.filter(
-    //   (item) => item.value !== tarea.value
-    // );
-    // localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
-    // setEditando(false);
-    // setTareas(nuevasTareas);
-
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("TodoList")
       .update({ delete: true })
-      .eq("id", tarea.id)
-      .single();
+      .eq("id", tarea.id);
     if (error) {
-      console.error("Error al actualizar la tarea:", error);
+      console.error("Error al eliminar la tarea:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Error deleting task: ${error.message}`,
+      });
       return;
-    } else {
-      setTareas((prevTareas) =>
-        prevTareas.map((item) =>
-          item.id === tarea.id ? { ...tarea, data } : tarea
-        )
-      );
     }
-    return;
   };
 
   return (

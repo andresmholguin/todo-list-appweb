@@ -4,63 +4,50 @@ import DeleteIcon from "./icons/DeleteIcon";
 import Swal from "sweetalert2";
 
 const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
-  function alertDelete(tarea) {
+  const alertDelete = (tarea) => {
     Swal.fire({
       theme: "dark",
       width: "27em",
       background: "#151a21",
       title: "Confirmar eliminación",
-      text: "Esta seguro que desea eliminar esta tarea?",
+      text: "¿Está seguro de que desea eliminar esta tarea?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#27aee0",
       cancelButtonColor: "var(--color-red-700)",
-      confirmButtonText: "¡Si, eliminar!",
+      confirmButtonText: "¡Sí, eliminar!",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        eliminar(tarea);
+        eliminarTarea(tarea);
         Swal.fire({
           theme: "dark",
           width: "27em",
           background: "#151a21",
-          title: "Eliminada!",
+          title: "Eliminada",
           text: "La tarea ha sido eliminada.",
           icon: "success",
           confirmButtonColor: "#27aee0",
+          timer: 2000,
+          showConfirmButton: false,
         });
-        setTimeout(() => {
-          Swal.close();
-        }, 2000);
       }
     });
-  }
-
-  const eliminar = (tarea) => {
-    eliminarTarea(tarea);
   };
 
   const editar = (tarea) => {
-    if (editando.id === tarea.id) {
-      setEditando(false);
-      return;
-    }
-    setEditando(tarea);
+    setEditando(editando.id === tarea.id ? false : tarea);
   };
 
-  const bgCategory = (bgCategory) => {
-    const optionsSelect = [
-      { value: "Importante", color: "bg-red-500/70" },
-      { value: "Trabajo", color: "bg-amber-500/70" },
-      { value: "Estudio", color: "bg-cyan-500/70" },
-      { value: "Personal", color: "bg-emerald-500/70" },
-      { value: "Otros", color: "bg-gray-400" },
-    ];
-
-    const selectedOption = optionsSelect.find(
-      (option) => option.value === bgCategory
-    );
-    return selectedOption ? selectedOption.color : "bg-gray-400";
+  const bgCategory = (category) => {
+    const categories = {
+      Importante: "bg-red-500/70",
+      Trabajo: "bg-amber-500/70",
+      Estudio: "bg-cyan-500/70",
+      Personal: "bg-emerald-500/70",
+      Otros: "bg-gray-600",
+    };
+    return categories[category] || "bg-gray-400";
   };
 
   return (
@@ -73,20 +60,20 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
           tareas.map((tarea) => (
             <li
               key={tarea.id}
-              className=" flex justify-between items-center bg-Dark-800 p-2 mb-4 overflow-hidden rounded-lg transition-all duration-300"
+              className="flex justify-between items-center bg-Dark-800 p-2 mb-4 rounded-lg transition-all duration-300"
             >
               <div>
-                <p className=" text-lg overflow-hidden text-ellipsis">
+                <p className="text-lg overflow-hidden text-ellipsis">
                   {tarea.task}
                 </p>
                 <div className="flex items-center text-xs text-gray-400 gap-2">
-                  <p>{tarea.dateTask == "" ? "Sin fecha" : tarea.dateTask}</p>
+                  <p>{tarea.dateTask || "Sin fecha"}</p>
                   <span
                     className={`${bgCategory(
                       tarea.category
-                    )} px-2 py-0.5  rounded-full text-white`}
+                    )} px-2 py-0.5 rounded-full text-white`}
                   >
-                    {tarea.category}
+                    {tarea.category || "Otros"}
                   </span>
                 </div>
               </div>
@@ -94,15 +81,18 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
                 <button
                   onClick={() => editar(tarea)}
                   className={`px-3 py-3 ${
-                    editando.id == tarea.id ? "bg-amber-500" : "bg-Dark-100"
-                  } cursor-pointer rounded-full transition-all duration-300 hover:bg-amber-500`}
+                    editando && editando.id === tarea.id
+                      ? "bg-amber-500"
+                      : "bg-Dark-100"
+                  } rounded-full transition-all duration-300 hover:bg-amber-500`}
+                  aria-label="Editar tarea"
                 >
                   <EditIcon />
                 </button>
-
                 <button
                   onClick={() => alertDelete(tarea)}
-                  className="px-3 py-3 bg-Dark-100 rounded-full cursor-pointer hover:bg-red-700 transition-all duration-300"
+                  className="px-3 py-3 bg-Dark-100 rounded-full hover:bg-red-700 transition-all duration-300"
+                  aria-label="Eliminar tarea"
                 >
                   <DeleteIcon />
                 </button>

@@ -10,7 +10,7 @@ const DateTask = ({ dateTask, setDateTask }) => {
     dateTask.setAttribute("min", `${year}-${month}-${day}`);
   }, []);
   return (
-    <div className="flex-1">
+    <div className="">
       <input
         type="date"
         className="rounded-lg py-1 pl-3 outline-0 bg-Dark-700 h-10 w-[150px]"

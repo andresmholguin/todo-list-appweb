@@ -66,12 +66,12 @@ const Header = ({
         />
 
         <div className="lg:flex lg:justify-between  lg:gap-4 mt-4">
-          <div className="flex w-full gap-4 h-12 mb-4">
+          <div className="flex flex-1 w-full gap-4 h-12 mb-4 ">
             <SelectCategory category={category} setCategory={setCategory} />
             <DateTask dateTask={dateTask} setDateTask={setDateTask} />
           </div>
           <button
-            className={`h-[40px] lg:w-[160px] w-full text-sm right-0 text-Dark-900 ${
+            className={` h-[40px] lg:w-[160px] w-full text-sm right-0 text-Dark-900 ${
               editando ? "bg-amber-500" : " bg-Dark-100"
             } text-center  rounded-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-colors duration-300`}
             id="btnSubmit"

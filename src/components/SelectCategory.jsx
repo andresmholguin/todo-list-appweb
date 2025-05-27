@@ -9,7 +9,7 @@ const SelectCategory = ({ category, setCategory }) => {
     { value: "Trabajo", color: "bg-amber-500/70" },
     { value: "Estudio", color: "bg-cyan-500/70" },
     { value: "Personal", color: "bg-emerald-500/70" },
-    { value: "Otros", color: "bg-Dark-700" },
+    { value: "Otros", color: "bg-gray-600" },
   ];
 
   const handleSelect = (e) => {
@@ -32,7 +32,7 @@ const SelectCategory = ({ category, setCategory }) => {
   }, [category]);
 
   return (
-    <div className="flex-1">
+    <div className="">
       <select
         name="category"
         id="category"
@@ -56,7 +56,9 @@ const SelectCategory = ({ category, setCategory }) => {
         <option value="Personal" className="bg-green-500/70">
           Personal
         </option>
-        <option value="Otros">Otros</option>
+        <option value="Otros" className="bg-gray-600">
+          Otros
+        </option>
       </select>
     </div>
   );
