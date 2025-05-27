@@ -85,6 +85,9 @@ function App() {
 
   const { isSignedIn, user } = useUser();
 
+  console.log(isSignedIn);
+  // console.log("User details:", user.id);
+
   // Main effect hook for initializing data and setting up real-time updates.
   // Fetches initial tasks and subscribes to changes in the "TodoList" table via Supabase channels.
   // Cleans up the channel subscription when the component unmounts.
@@ -163,11 +166,13 @@ function App() {
    * Updates the 'tareas' state with the fetched data or shows an error alert.
    */
   const fetchTareas = async () => {
+    const userId = user.id;
     const { data, error } = await supabase
       .from("TodoList")
       .select("*")
-      .order("dateTask", { ascending: true })
-      .eq("delete", false);
+      .eq("delete", false) // Tareas que no están eliminadas.
+      .eq("userId", userId) // Tareas del usuario actual.
+      .order("dateTask", { ascending: true });
 
     if (error) {
       console.error("Error al obtener las tareas:", error);
@@ -192,11 +197,13 @@ function App() {
    * @param {string} dateTask - The due date of the task.
    */
   const guardarTarea = async (id, value, category, dateTask) => {
+    const userId = user.id;
     const newTaskData = {
       task: value,
       category: category == "none" ? "Otros" : category,
       dateTask: !dateTask ? "" : dateTask,
       isCompleted: false,
+      userId: userId,
     };
 
     if (editando) {
