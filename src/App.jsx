@@ -28,6 +28,7 @@ function App() {
       .subscribe();
 
     // Limpiar la suscripción al desmontar el componente
+    console.log(tareas);
     return () => {
       supabase.removeChannel(channel);
     };
@@ -61,7 +62,8 @@ function App() {
     const { data, error } = await supabase
       .from("TodoList")
       .select("*")
-      .order("dateTask", { ascending: true });
+      .order("dateTask", { ascending: true })
+      .eq("delete", false);
 
     if (error) {
       console.error("Error al obtener las tareas:", error);
@@ -133,16 +135,33 @@ function App() {
     setDateTask("");
   }
 
-  function eliminarTarea(tarea) {
-    // console.log(tarea);
-    const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    const nuevasTareas = tareasStorage.filter(
-      (item) => item.value !== tarea.value
-    );
-    localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
-    setEditando(false);
-    setTareas(nuevasTareas);
-  }
+  const eliminarTarea = async (tarea) => {
+    console.log(tarea);
+    // const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
+    // const nuevasTareas = tareasStorage.filter(
+    //   (item) => item.value !== tarea.value
+    // );
+    // localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+    // setEditando(false);
+    // setTareas(nuevasTareas);
+
+    const { data, error } = await supabase
+      .from("TodoList")
+      .update({ delete: true })
+      .eq("id", tarea.id)
+      .single();
+    if (error) {
+      console.error("Error al actualizar la tarea:", error);
+      return;
+    } else {
+      setTareas((prevTareas) =>
+        prevTareas.map((item) =>
+          item.id === tarea.id ? { ...tarea, data } : tarea
+        )
+      );
+    }
+    return;
+  };
 
   return (
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
