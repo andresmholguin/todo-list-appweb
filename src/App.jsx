@@ -20,10 +20,72 @@ function App() {
   // State for the selected date of a task
   const [dateTask, setDateTask] = useState("");
 
+  /**
+   * Validates and syncs tasks from localStorage to the Supabase "TodoList" table.
+   * Retrieves tasks from 'localStorageTasks', transforms them to the required schema,
+   * inserts them into Supabase, and then clears them from localStorage.
+   * Includes error handling and console logging for each step.
+   */
+  const validateLocalStorageAndSync = async () => {
+    console.log("Checking localStorage for tasks...");
+    try {
+      const localTasks = localStorage.getItem("tareas");
+      if (localTasks) {
+        console.log("Tasks found, attempting to save to DB...");
+        const parsedTasks = JSON.parse(localTasks);
+
+        if (
+          Array.isArray(parsedTasks) &&
+          parsedTasks.length > 0 &&
+          parsedTasks.every((item) => typeof item === "string")
+        ) {
+          const tasksToInsert = parsedTasks.map((taskString) => ({
+            task: taskString,
+            category: "Otros",
+            dateTask: "",
+            isCompleted: false,
+            delete: false,
+          }));
+
+          try {
+            const { error: insertError } = await supabase
+              .from("TodoList")
+              .insert(tasksToInsert);
+
+            if (insertError) {
+              console.error(
+                "Error saving tasks from localStorage to DB:",
+                insertError
+              );
+            } else {
+              console.log(
+                "Tasks saved to DB successfully, clearing localStorage."
+              );
+              localStorage.removeItem("tareas");
+            }
+          } catch (dbError) {
+            console.error("Exception during DB insert operation:", dbError);
+          }
+        } else {
+          console.log("No tasks to insert or data is not in expected format.");
+          // Optionally, clear localStorage if the data is malformed and unusable
+          // localStorage.removeItem('tareas');
+        }
+      } else {
+        console.log("No tasks found in localStorage.");
+      }
+    } catch (error) {
+      console.error("Error processing tasks from localStorage:", error);
+      // Potentially corrupted data in localStorage, consider removing it
+      // localStorage.removeItem('tareas');
+    }
+  };
+
   // Main effect hook for initializing data and setting up real-time updates.
   // Fetches initial tasks and subscribes to changes in the "TodoList" table via Supabase channels.
   // Cleans up the channel subscription when the component unmounts.
   useEffect(() => {
+    validateLocalStorageAndSync();
     fetchTareas();
     const channel = supabase
       .channel("realtime-todolist")
