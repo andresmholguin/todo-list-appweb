@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import LoginAuth from "./components/LoginAuth";
+import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 
 /**
  * Main application component for managing the Todo list.
@@ -82,12 +83,19 @@ function App() {
     }
   };
 
+  const { isSignedIn, user } = useUser();
+
   // Main effect hook for initializing data and setting up real-time updates.
   // Fetches initial tasks and subscribes to changes in the "TodoList" table via Supabase channels.
   // Cleans up the channel subscription when the component unmounts.
   useEffect(() => {
-    validateLocalStorageAndSync();
-    fetchTareas();
+    if (isSignedIn) {
+      console.log("Usuario autenticado:", user);
+      validateLocalStorageAndSync();
+      fetchTareas();
+    } else {
+      console.log("No hay un usuario autenticado.");
+    }
     const channel = supabase
       .channel("realtime-todolist")
       .on(
@@ -107,7 +115,7 @@ function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [isSignedIn]);
 
   /**
    * Handles real-time updates received from the Supabase channel.
