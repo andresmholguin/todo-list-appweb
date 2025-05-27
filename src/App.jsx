@@ -4,6 +4,9 @@ import Swal from "sweetalert2";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
+import LoginAuth from "./components/LoginAuth";
+
+import { useUser } from "@clerk/clerk-react";
 
 /**
  * Main application component for managing the Todo list.
@@ -19,6 +22,8 @@ function App() {
   const [category, setCategory] = useState("none");
   // State for the selected date of a task
   const [dateTask, setDateTask] = useState("");
+
+  const user = useUser();
 
   /**
    * Validates and syncs tasks from localStorage to the Supabase "TodoList" table.
@@ -278,6 +283,8 @@ function App() {
 
   return (
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
+      <LoginAuth />
+      <h3>{user ? user.user.fullName : "sinnombre"}</h3>
       <Header
         guardarTarea={guardarTarea}
         editando={editando}
