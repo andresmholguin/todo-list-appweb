@@ -11,50 +11,77 @@ function App() {
   const [dateTask, setDateTask] = useState("");
 
   useEffect(() => {
-    const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-    setTareas(tareasStorage);
-  }, []);
+    fetchTareas();
+  }, [dateTask, category]);
 
-  // function guardarTarea(value, index, category, dateTask) {
-  //   const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
-  //   const uuid = uuidv4();
-  //   const tarea = {
-  //     id: uuid,
-  //     value,
-  //     category,
-  //     dateTask,
-  //   };
-  //   if (!editando) {
-  //     tareasStorage.push(tarea);
-  //   } else {
-  //     tareasStorage[index] = tarea;
-  //   }
-  //   localStorage.setItem("tareas", JSON.stringify(tareasStorage));
-  //   setTareas(tareasStorage);
-  //   setEditando(false);
-  //   setCategory("none");
-  //   setDateTask("");
-  // }
-
-  const guardarTarea = async (value, category, dateTask) => {
-    const newTaskData = {
-      task: value,
-      category: category,
-      dateTask: dateTask,
-      isCompleted: false,
-    };
+  const fetchTareas = async () => {
     const { data, error } = await supabase
       .from("TodoList")
-      .insert([newTaskData])
-      .single();
+      .select("*")
+      .order("dateTask", { ascending: true });
+
     if (error) {
-      console.error("Error al guardar la tarea:", error);
+      console.error("Error al obtener las tareas:", error);
+    } else {
+      setTareas(data);
+    }
+  };
+
+  const guardarTarea = async (id, value, category, dateTask) => {
+    const newTaskData = {
+      task: value,
+      category: category == "none" ? "Otros" : category,
+      dateTask: !dateTask ? "" : dateTask,
+      isCompleted: false,
+    };
+
+    if (editando) {
+      // Actualizar tarea existente
+      // console.log(editando);
+      const { data, error } = await supabase
+        .from("TodoList")
+        .update(newTaskData)
+        .eq("id", id)
+        .single();
+      if (error) {
+        console.error("Error al actualizar la tarea:", error);
+        return;
+      } else {
+        setTareas((prevTareas) =>
+          prevTareas.map((tarea) =>
+            tarea.id === id ? { ...tarea, data } : tarea
+          )
+        );
+        resetCampos();
+      }
       return;
     } else {
-      setTareas((prevTareas) => [...prevTareas, data]);
-      console.log(tareas);
-      resetCampos();
+      // Insertar nueva tarea
+      const { data, error } = await supabase
+        .from("TodoList")
+        .insert([newTaskData])
+        .single();
+      if (error) {
+        console.error("Error al guardar la tarea:", error);
+        return;
+      } else {
+        setTareas((prevTareas) => [...prevTareas, data]);
+        resetCampos();
+      }
     }
+
+    // const { data, error } = await supabase
+    //   .from("TodoList")
+    //   .insert([newTaskData])
+    //   .single();
+    // if (error) {
+    //   console.error("Error al guardar la tarea:", error);
+    //   return;
+    // } else {
+    //   setTareas((prevTareas) => [...prevTareas, data]);
+    //   console.log(tareas);
+    //   resetCampos();
+    // }
   };
 
   function resetCampos() {
@@ -64,7 +91,7 @@ function App() {
   }
 
   function eliminarTarea(tarea) {
-    console.log(tarea);
+    // console.log(tarea);
     const tareasStorage = JSON.parse(localStorage.getItem("tareas")) || [];
     const nuevasTareas = tareasStorage.filter(
       (item) => item.value !== tarea.value
@@ -75,7 +102,7 @@ function App() {
   }
 
   return (
-    <div className=" bg-Dark-900 text-white p-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
+    <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <Header
         guardarTarea={guardarTarea}
         editando={editando}

@@ -40,14 +40,28 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
     eliminarTarea(tarea);
   };
 
-  const editar = (tarea, index) => {
-    if (editando[1] === index) {
+  const editar = (tarea) => {
+    if (editando.id === tarea.id) {
       setEditando(false);
       return;
     }
-    setEditando([tarea, index]);
+    setEditando(tarea);
   };
-  console.log(tareas);
+
+  const bgCategory = (bgCategory) => {
+    const optionsSelect = [
+      { value: "Importante", color: "bg-red-500/70" },
+      { value: "Trabajo", color: "bg-amber-500/70" },
+      { value: "Estudio", color: "bg-cyan-500/70" },
+      { value: "Personal", color: "bg-emerald-500/70" },
+      { value: "Otros", color: "bg-gray-400" },
+    ];
+
+    const selectedOption = optionsSelect.find(
+      (option) => option.value === bgCategory
+    );
+    return selectedOption ? selectedOption.color : "bg-gray-400";
+  };
 
   return (
     <div>
@@ -56,27 +70,39 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
         {tareas.length === 0 ? (
           <li className="text-center text-lg">No hay tareas</li>
         ) : (
-          tareas.map((tarea, index) => (
+          tareas.map((tarea) => (
             <li
-              key={index}
-              className="flex justify-between items-center bg-Dark-800 p-3 mb-2 rounded-lg transition-all duration-300"
+              key={tarea.id}
+              className=" flex justify-between items-center bg-Dark-800 p-2 mb-4 overflow-hidden rounded-lg transition-all duration-300"
             >
-              <span className="pr-3 w-[610px] overflow-hidden text-ellipsis">
-                {tarea.value ? tarea.value : tarea}
-              </span>
-              <div className="flex gap-2">
+              <div>
+                <p className=" text-lg overflow-hidden text-ellipsis">
+                  {tarea.task}
+                </p>
+                <div className="flex items-center text-xs text-gray-400 gap-2">
+                  <p>{tarea.dateTask == "" ? "Sin fecha" : tarea.dateTask}</p>
+                  <span
+                    className={`${bgCategory(
+                      tarea.category
+                    )} px-2 py-0.5  rounded-full text-white`}
+                  >
+                    {tarea.category}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-3">
                 <button
-                  onClick={() => editar(tarea, index)}
-                  className={`px-3 py-2 ${
-                    editando[1] == index ? "bg-amber-500" : "bg-Dark-100"
-                  } cursor-pointer rounded-sm transition-all duration-300 hover:bg-amber-500`}
+                  onClick={() => editar(tarea)}
+                  className={`px-3 py-3 ${
+                    editando.id == tarea.id ? "bg-amber-500" : "bg-Dark-100"
+                  } cursor-pointer rounded-full transition-all duration-300 hover:bg-amber-500`}
                 >
                   <EditIcon />
                 </button>
 
                 <button
                   onClick={() => alertDelete(tarea)}
-                  className="px-3 py-2 bg-Dark-100 rounded-sm cursor-pointer hover:bg-red-700 transition-all duration-300"
+                  className="px-3 py-3 bg-Dark-100 rounded-full cursor-pointer hover:bg-red-700 transition-all duration-300"
                 >
                   <DeleteIcon />
                 </button>

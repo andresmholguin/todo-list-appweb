@@ -5,7 +5,7 @@ import DateTask from "./DateTask";
 const Header = ({
   guardarTarea,
   editando,
-  setEditando,
+
   category,
   setCategory,
   dateTask,
@@ -16,24 +16,23 @@ const Header = ({
 
   const saveStorage = (e) => {
     e.preventDefault();
-
+    // console.log("guardando tarea");
     const input = document.getElementById("input");
     const dateTaskInput = document.getElementById("dateTask");
-    const date = dateTaskInput.value;
+    let date = dateTaskInput.value;
     let value = input.value;
-    console.log(value);
-    console.log(category);
-    console.log(date);
-
-    if (!value || date === "" || category === "none") {
+    if (date === null) {
+      date = "";
+    }
+    if (!value) {
       return;
     } else {
       value = value.trim();
       value = value.charAt(0).toUpperCase() + value.slice(1);
       setDateTask(date);
-      guardarTarea(value, editando[1], category, dateTask);
+      guardarTarea(editando.id, value, category, dateTask);
       input.value = "";
-      setEditando(false);
+      // setEditando(false);
     }
   };
 
@@ -41,11 +40,10 @@ const Header = ({
     const input = document.getElementById("input");
     const btnSubmit = document.getElementById("btnSubmit");
     if (editando) {
-      console.log(editando[0].category);
-      input.value = editando[0].value ? editando[0].value : editando[0];
+      input.value = editando.task;
       input.focus();
-      setCategory(editando[0].category);
-      setDateTask(editando[0].dateTask);
+      setCategory(editando.category);
+      setDateTask(editando.dateTask);
       btnSubmit.innerText = "Actualizar";
     } else {
       input.value = "";
@@ -67,15 +65,15 @@ const Header = ({
           placeholder="Ejercicio, Estudiar, Compras ..."
         />
 
-        <div className="lg:flex lg:justify-between lg:gap-4 mt-4">
-          <div className="flex justify-between gap-4 h-12 mb-4">
+        <div className="lg:flex lg:justify-between  lg:gap-4 mt-4">
+          <div className="flex w-full gap-4 h-12 mb-4">
             <SelectCategory category={category} setCategory={setCategory} />
             <DateTask dateTask={dateTask} setDateTask={setDateTask} />
           </div>
           <button
-            className={`h-[32px] lg:w-[100px] w-full  text-sm right-0 text-Dark-900 ${
+            className={`h-[40px] lg:w-[160px] w-full text-sm right-0 text-Dark-900 ${
               editando ? "bg-amber-500" : " bg-Dark-100"
-            } text-center  rounded-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-all duration-300`}
+            } text-center  rounded-lg shadow-md cursor-pointer  font-bold hover:bg-Dark-400 hover:text-white active:bg-Dark-400/40 transition-colors duration-300`}
             id="btnSubmit"
             type="submit"
             onClick={saveStorage}

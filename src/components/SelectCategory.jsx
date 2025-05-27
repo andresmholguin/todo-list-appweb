@@ -5,26 +5,23 @@ const SelectCategory = ({ category, setCategory }) => {
   const [bgSelect, setBgSelect] = useState("bg-Dark-700");
 
   const optionsSelect = [
-    { value: "importante", color: "bg-red-500/70" },
-    { value: "trabajo", color: "bg-amber-500/70" },
-    { value: "estudio", color: "bg-cyan-500/70" },
-    { value: "personal", color: "bg-emerald-500/70" },
-    { value: "otros", color: "bg-Dark-700" },
+    { value: "Importante", color: "bg-red-500/70" },
+    { value: "Trabajo", color: "bg-amber-500/70" },
+    { value: "Estudio", color: "bg-cyan-500/70" },
+    { value: "Personal", color: "bg-emerald-500/70" },
+    { value: "Otros", color: "bg-Dark-700" },
   ];
 
   const handleSelect = (e) => {
     e.preventDefault();
     const value = e.target.value;
+
     if (value !== "none") {
-      //   console.log(value);
       const selectedOption = optionsSelect.find(
         (option) => option.value === value
       );
-      //   console.log(selectedOption);
       setCategory(value);
       setBgSelect(selectedOption.color);
-    } else {
-      setBgSelect("bg-Dark-700");
     }
   };
 
@@ -33,14 +30,13 @@ const SelectCategory = ({ category, setCategory }) => {
       setBgSelect("bg-Dark-700");
     }
   }, [category]);
-  //   console.log(category);
 
   return (
-    <div>
+    <div className="flex-1">
       <select
         name="category"
         id="category"
-        className={`${bgSelect} rounded-lg py-1 px-2 outline-0 h-12 w-[150px]`}
+        className={`${bgSelect} rounded-lg py-1 px-2 outline-0 h-10 w-[150px]`}
         onChange={handleSelect}
         value={category}
         required
@@ -48,19 +44,19 @@ const SelectCategory = ({ category, setCategory }) => {
         <option value="none" disabled>
           Categoría
         </option>
-        <option value="importante" className="bg-red-500/70">
+        <option value="Importante" className="bg-red-500/70">
           Importante
         </option>
-        <option value="trabajo" className="bg-amber-500/70">
+        <option value="Trabajo" className="bg-amber-500/70">
           Trabajo
         </option>
-        <option value="estudio" className="bg-cyan-500/70">
+        <option value="Estudio" className="bg-cyan-500/70">
           Estudio
         </option>
-        <option value="personal" className="bg-green-500/70">
+        <option value="Personal" className="bg-green-500/70">
           Personal
         </option>
-        <option value="otros">Otros</option>
+        <option value="Otros">Otros</option>
       </select>
     </div>
   );
