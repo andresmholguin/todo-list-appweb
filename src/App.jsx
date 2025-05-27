@@ -12,7 +12,50 @@ function App() {
 
   useEffect(() => {
     fetchTareas();
-  }, [dateTask, category]);
+    const channel = supabase
+      .channel("realtime-todolist")
+      .on(
+        "postgres_changes",
+        {
+          event: "*", // Monitorea todos los eventos: INSERT, UPDATE, DELETE
+          schema: "public",
+          table: "TodoList", // Especifica la tabla
+        },
+        (payload) => {
+          handleRealtimePayload(payload);
+        }
+      )
+      .subscribe();
+
+    // Limpiar la suscripción al desmontar el componente
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const handleRealtimePayload = (payload) => {
+    console.log("Cambio detectado:", payload);
+
+    switch (payload.eventType) {
+      case "INSERT":
+        setTareas((prevTareas) => [...prevTareas, payload.new]);
+        break;
+      case "UPDATE":
+        setTareas((prevTareas) =>
+          prevTareas.map((tarea) =>
+            tarea.id === payload.new.id ? payload.new : tarea
+          )
+        );
+        break;
+      case "DELETE":
+        setTareas((prevTareas) =>
+          prevTareas.filter((tarea) => tarea.id !== payload.old.id)
+        );
+        break;
+      default:
+        break;
+    }
+  };
 
   const fetchTareas = async () => {
     const { data, error } = await supabase
