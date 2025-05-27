@@ -279,7 +279,9 @@ function App() {
 
   return (
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
-      <LoginAuth />
+      <div className="flex justify-end  ">
+        <LoginAuth />
+      </div>
       <Header
         guardarTarea={guardarTarea}
         editando={editando}
