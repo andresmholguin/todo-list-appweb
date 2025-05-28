@@ -84,9 +84,11 @@ function App() {
 
       .from("TodoList")
       .select("*")
-      .eq("delete", false) // Tareas que no están eliminadas.
       .eq("userId", userData.id) // Tareas del usuario actual.
-      .order("dateTask", { ascending: true });
+      .eq("delete", false) // Tareas que no están eliminadas.
+      .order("dateTask", { ascending: true })
+      .order("category", { ascending: true })
+      .order("task", { ascending: true });
 
     if (error) {
       console.error("Error al obtener las tareas:", error);
