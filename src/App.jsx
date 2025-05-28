@@ -16,12 +16,13 @@ function App() {
 
   const { isSignedIn, user } = useUser();
 
-  // console.log(isSignedIn);
+  console.log(user);
 
   useEffect(() => {
     if (isSignedIn) {
+      console.log("Inicia useEffect. Registra usuario" + user.id);
+
       setUserData(user);
-      console.log(userData);
       fetchTareas();
     } else {
       console.log("No hay un usuario autenticado.");
@@ -220,7 +221,7 @@ function App() {
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <div className="flex justify-end  ">
         <LoginAuth />
-        <p>{userData.id}</p>
+        <p>{userData ? userData.id : "Don't User"}</p>
       </div>
       <Header
         guardarTarea={guardarTarea}
