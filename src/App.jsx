@@ -101,11 +101,13 @@ function App() {
   const guardarTarea = async (id, value, category, dateTask) => {
     if (isSignedIn) {
       const userId = user.id;
+      console.log(userId);
       const newTaskData = {
         task: value,
         category: category == "none" ? "Otros" : category,
         dateTask: !dateTask ? "" : dateTask,
         isCompleted: false,
+        delete: false,
         userId: userId,
       };
 
