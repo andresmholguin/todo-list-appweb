@@ -79,6 +79,7 @@ function App() {
   const fetchTareas = async () => {
     // const userId = user.id;
     const { data, error } = await supabase
+
       .from("TodoList")
       .select("*")
       .eq("delete", false) // Tareas que no están eliminadas.
