@@ -3,7 +3,6 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
-  useUser,
 } from "@clerk/clerk-react";
 
 const LoginAuth = () => {

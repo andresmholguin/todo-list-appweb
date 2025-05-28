@@ -16,8 +16,6 @@ function App() {
 
   const { isSignedIn, user } = useUser();
 
-  console.log(user);
-
   useEffect(() => {
     if (isSignedIn) {
       console.log("Inicia useEffect. Registra usuario" + user.id);
@@ -47,7 +45,7 @@ function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, userData]);
 
   const handleRealtimePayload = (payload) => {
     console.log("Cambio detectado:", payload);
