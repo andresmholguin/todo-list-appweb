@@ -79,12 +79,11 @@ function App() {
   };
 
   const fetchTareas = async () => {
-    const userId = user.id;
     const { data, error } = await supabase
 
       .from("TodoList")
       .select("*")
-      .eq("userId", userId) // Tareas del usuario actual.
+      .eq("userId", userData.id) // Tareas del usuario actual.
       .eq("delete", false) // Tareas que no están eliminadas.
       .order("dateTask", { ascending: true })
       .order("category", { ascending: true })
@@ -105,7 +104,7 @@ function App() {
   const guardarTarea = async (id, value, category, dateTask) => {
     if (isSignedIn) {
       // const userId = user.id;
-      console.log(userData.Id);
+      // console.log(userData.Id);
       const newTaskData = {
         task: value,
         category: category == "none" ? "Otros" : category,
@@ -206,6 +205,7 @@ function App() {
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <div className="flex justify-end  ">
         <LoginAuth />
+        <p>{userData.id}</p>
       </div>
       <Header
         guardarTarea={guardarTarea}
