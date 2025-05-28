@@ -91,7 +91,7 @@ function App() {
         .from("TodoList")
         .select("*")
         .eq("userId", userDataId) // Tareas del usuario actual.
-        .eq("delete", false) // Tareas que no están eliminadas.
+        // .eq("delete", false) // Tareas que no están eliminadas.
         .order("dateTask", { ascending: true });
 
       if (error) {
