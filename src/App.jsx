@@ -5,96 +5,21 @@ import Swal from "sweetalert2";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import LoginAuth from "./components/LoginAuth";
-import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
-/**
- * Main application component for managing the Todo list.
- * It handles fetching, creating, updating, and deleting tasks,
- * and subscribes to real-time updates from Supabase.
- */
 function App() {
-  // State to store the list of tasks
   const [tareas, setTareas] = useState([]);
-  // State to manage the editing mode and store the task being edited (or true if a new task is being created in edit mode, though typically holds a task object or false)
   const [editando, setEditando] = useState(false);
-  // State for the selected category of a task
   const [category, setCategory] = useState("none");
-  // State for the selected date of a task
   const [dateTask, setDateTask] = useState("");
-
-  /**
-   * Validates and syncs tasks from localStorage to the Supabase "TodoList" table.
-   * Retrieves tasks from 'localStorageTasks', transforms them to the required schema,
-   * inserts them into Supabase, and then clears them from localStorage.
-   * Includes error handling and console logging for each step.
-   */
-  const validateLocalStorageAndSync = async () => {
-    console.log("Checking localStorage for tasks...");
-    try {
-      const localTasks = localStorage.getItem("localStorageTasks");
-      if (localTasks) {
-        console.log("Tasks found, attempting to save to DB...");
-        const parsedTasks = JSON.parse(localTasks);
-
-        if (
-          Array.isArray(parsedTasks) &&
-          parsedTasks.length > 0 &&
-          parsedTasks.every((item) => typeof item === "string")
-        ) {
-          const tasksToInsert = parsedTasks.map((taskString) => ({
-            task: taskString,
-            category: "Otros",
-            dateTask: "",
-            isCompleted: false,
-            delete: false,
-          }));
-
-          try {
-            const { error: insertError } = await supabase
-              .from("TodoList")
-              .insert(tasksToInsert);
-
-            if (insertError) {
-              console.error(
-                "Error saving tasks from localStorage to DB:",
-                insertError
-              );
-            } else {
-              console.log(
-                "Tasks saved to DB successfully, clearing localStorage."
-              );
-              localStorage.removeItem("localStorageTasks");
-            }
-          } catch (dbError) {
-            console.error("Exception during DB insert operation:", dbError);
-          }
-        } else {
-          console.log("No tasks to insert or data is not in expected format.");
-          // Optionally, clear localStorage if the data is malformed and unusable
-          // localStorage.removeItem('localStorageTasks');
-        }
-      } else {
-        console.log("No tasks found in localStorage.");
-      }
-    } catch (error) {
-      console.error("Error processing tasks from localStorage:", error);
-      // Potentially corrupted data in localStorage, consider removing it
-      // localStorage.removeItem('localStorageTasks');
-    }
-  };
 
   const { isSignedIn, user } = useUser();
 
-  console.log(isSignedIn);
-  // console.log("User details:", user.id);
+  // console.log(isSignedIn);
 
-  // Main effect hook for initializing data and setting up real-time updates.
-  // Fetches initial tasks and subscribes to changes in the "TodoList" table via Supabase channels.
-  // Cleans up the channel subscription when the component unmounts.
   useEffect(() => {
     if (isSignedIn) {
       console.log("Usuario autenticado:", user);
-      validateLocalStorageAndSync();
       fetchTareas();
     } else {
       console.log("No hay un usuario autenticado.");
@@ -109,6 +34,7 @@ function App() {
           table: "TodoList", // Especifica la tabla
         },
         (payload) => {
+          console.log(payload);
           handleRealtimePayload(payload);
         }
       )
@@ -120,15 +46,6 @@ function App() {
     };
   }, [isSignedIn]);
 
-  /**
-   * Handles real-time updates received from the Supabase channel.
-   * Updates the local 'tareas' state based on INSERT, UPDATE, or DELETE events.
-   * For UPDATE events, it also handles soft deletes by filtering out tasks where `delete` is true.
-   * @param {object} payload - The data received from the Supabase channel.
-   * @param {string} payload.eventType - The type of database event (e.g., "INSERT", "UPDATE", "DELETE").
-   * @param {object} payload.new - The new state of the row (for INSERT and UPDATE).
-   * @param {object} payload.old - The old state of the row (for DELETE).
-   */
   const handleRealtimePayload = (payload) => {
     console.log("Cambio detectado:", payload);
 
@@ -159,12 +76,6 @@ function App() {
     }
   };
 
-  /**
-   * Fetches tasks from the Supabase "TodoList" table.
-   * Only retrieves tasks that are not marked as deleted (`delete: false`).
-   * Orders the tasks by 'dateTask' in ascending order.
-   * Updates the 'tareas' state with the fetched data or shows an error alert.
-   */
   const fetchTareas = async () => {
     const userId = user.id;
     const { data, error } = await supabase
@@ -186,71 +97,63 @@ function App() {
     }
   };
 
-  /**
-   * Saves or updates a task in the Supabase "TodoList" table.
-   * If 'editando' state is true (contains a task id), it updates an existing task.
-   * Otherwise, it inserts a new task.
-   * Shows success or error alerts accordingly.
-   * @param {string|null} id - The ID of the task to update, or null for a new task.
-   * @param {string} value - The text content of the task.
-   * @param {string} category - The category of the task.
-   * @param {string} dateTask - The due date of the task.
-   */
   const guardarTarea = async (id, value, category, dateTask) => {
-    const userId = user.id;
-    const newTaskData = {
-      task: value,
-      category: category == "none" ? "Otros" : category,
-      dateTask: !dateTask ? "" : dateTask,
-      isCompleted: false,
-      userId: userId,
-    };
+    if (isSignedIn) {
+      const userId = user.id;
+      const newTaskData = {
+        task: value,
+        category: category == "none" ? "Otros" : category,
+        dateTask: !dateTask ? "" : dateTask,
+        isCompleted: false,
+        userId: userId,
+      };
 
-    if (editando) {
-      // Actualizar tarea existente
-      const { error } = await supabase
-        .from("TodoList")
-        .update(newTaskData)
-        .eq("id", id);
-      if (error) {
-        console.error("Error al actualizar la tarea:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `Error updating task: ${error.message}`,
-        });
+      if (editando) {
+        // Actualizar tarea existente
+        const { error } = await supabase
+          .from("TodoList")
+          .update(newTaskData)
+          .eq("id", id);
+        if (error) {
+          console.error("Error al actualizar la tarea:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Error updating task: ${error.message}`,
+          });
+          return;
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Updated!",
+            text: "Task updated successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          resetCampos();
+        }
         return;
       } else {
-        Swal.fire({
-          icon: "success",
-          title: "Updated!",
-          text: "Task updated successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        resetCampos();
-      }
-      return;
-    } else {
-      // Insertar nueva tarea
-      const { error } = await supabase.from("TodoList").insert([newTaskData]);
-      if (error) {
-        console.error("Error al guardar la tarea:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `Error saving task: ${error.message}`,
-        });
-        return;
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: "Saved!",
-          text: "Task saved successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        resetCampos();
+        // Insertar nueva tarea
+        const { error } = await supabase.from("TodoList").insert([newTaskData]);
+        if (error) {
+          console.error("Error al guardar la tarea:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Error saving task: ${error.message}`,
+          });
+          return;
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Saved!",
+            text: "Task saved successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          resetCampos();
+        }
       }
     }
   };

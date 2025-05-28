@@ -55,7 +55,9 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
       <h1 className="text-2xl font-bold mb-4">Tareas</h1>
       <ul>
         {tareas.length === 0 ? (
-          <li className="text-center text-lg">No hay tareas</li>
+          <li className="text-center text-lg">
+            Realiza el loggin para ver tus tareas
+          </li>
         ) : (
           tareas.map((tarea) => (
             <li

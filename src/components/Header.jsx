@@ -66,7 +66,7 @@ const Header = ({
         />
 
         <div className="lg:flex lg:justify-between  lg:gap-4 mt-4">
-          <div className="flex flex-1 w-full gap-4 h-12 mb-4 ">
+          <div className="flex justify-between lg:justify-start w-full gap-4 h-12 mb-4 ">
             <SelectCategory category={category} setCategory={setCategory} />
             <DateTask dateTask={dateTask} setDateTask={setDateTask} />
           </div>
