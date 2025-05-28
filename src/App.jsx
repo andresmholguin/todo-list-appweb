@@ -77,13 +77,13 @@ function App() {
   };
 
   const fetchTareas = async () => {
-    // const userId = user.id;
+    const userId = user.id;
     const { data, error } = await supabase
 
       .from("TodoList")
       .select("*")
       .eq("delete", false) // Tareas que no están eliminadas.
-      // .eq("userId", userId) // Tareas del usuario actual.
+      .eq("userId", userId) // Tareas del usuario actual.
       .order("dateTask", { ascending: true });
 
     if (error) {
