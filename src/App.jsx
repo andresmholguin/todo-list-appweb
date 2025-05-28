@@ -86,14 +86,13 @@ function App() {
     }
 
     try {
+      console.log(userData.id);
       const { data, error } = await supabase
         .from("TodoList")
         .select("*")
         .eq("userId", userData.id) // Tareas del usuario actual.
         .eq("delete", false) // Tareas que no están eliminadas.
-        .order("dateTask", { ascending: true })
-        .order("category", { ascending: true })
-        .order("task", { ascending: true });
+        .order("dateTask", { ascending: true });
 
       if (error) {
         console.error("Error al obtener las tareas:", error);
@@ -218,8 +217,10 @@ function App() {
   return (
     <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
       <div className="flex justify-end  ">
+        <p className="flex items-center  ">
+          {userData ? userData.fullName : "Don't User"}
+        </p>
         <LoginAuth />
-        <p>{userData ? userData.id : "Don't User"}</p>
       </div>
       <Header
         guardarTarea={guardarTarea}
