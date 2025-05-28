@@ -12,7 +12,7 @@ function App() {
   const [editando, setEditando] = useState(false);
   const [category, setCategory] = useState("none");
   const [dateTask, setDateTask] = useState("");
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
 
   const { isSignedIn, user } = useUser();
 
@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     if (isSignedIn) {
       setUserData(user);
+      console.log(userData);
       fetchTareas();
     } else {
       console.log("No hay un usuario autenticado.");
