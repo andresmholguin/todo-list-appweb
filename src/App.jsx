@@ -46,7 +46,7 @@ function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [isSignedIn]);
+  }, [isSignedIn, user]);
 
   const handleRealtimePayload = (payload) => {
     console.log("Cambio detectado:", payload);
@@ -79,25 +79,40 @@ function App() {
   };
 
   const fetchTareas = async () => {
-    const { data, error } = await supabase
+    if (!userData || !userData.id) {
+      console.warn(
+        "No se pudo obtener las tareas: El usuario no está autenticado."
+      );
+      return; // Salimos de la función si no hay un usuario autenticado.
+    }
 
-      .from("TodoList")
-      .select("*")
-      .eq("userId", userData.id) // Tareas del usuario actual.
-      .eq("delete", false) // Tareas que no están eliminadas.
-      .order("dateTask", { ascending: true })
-      .order("category", { ascending: true })
-      .order("task", { ascending: true });
+    try {
+      const { data, error } = await supabase
+        .from("TodoList")
+        .select("*")
+        .eq("userId", userData.id) // Tareas del usuario actual.
+        .eq("delete", false) // Tareas que no están eliminadas.
+        .order("dateTask", { ascending: true })
+        .order("category", { ascending: true })
+        .order("task", { ascending: true });
 
-    if (error) {
-      console.error("Error al obtener las tareas:", error);
+      if (error) {
+        console.error("Error al obtener las tareas:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `Error fetching tasks: ${error.message}`,
+        });
+      } else {
+        setTareas(data);
+      }
+    } catch (e) {
+      console.error("Error inesperado al obtener las tareas:", e);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: `Error fetching tasks: ${error.message}`,
+        text: "Unexpected error while fetching tasks. Please try again later.",
       });
-    } else {
-      setTareas(data);
     }
   };
 
