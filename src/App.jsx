@@ -86,11 +86,11 @@ function App() {
     }
 
     try {
-      const userDataId = userData.id;
+      // const userDataId = userData.id;
       const { data, error } = await supabase
         .from("TodoList")
         .select("*")
-        .eq("userId", userDataId) // Tareas del usuario actual.
+        // .eq("userId", userDataId) // Tareas del usuario actual.
         // .eq("delete", false) // Tareas que no están eliminadas.
         .order("dateTask", { ascending: true });
 
