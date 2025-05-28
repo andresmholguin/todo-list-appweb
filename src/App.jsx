@@ -12,6 +12,7 @@ function App() {
   const [editando, setEditando] = useState(false);
   const [category, setCategory] = useState("none");
   const [dateTask, setDateTask] = useState("");
+  const [userData, setUserData] = useState();
 
   const { isSignedIn, user } = useUser();
 
@@ -19,7 +20,7 @@ function App() {
 
   useEffect(() => {
     if (isSignedIn) {
-      console.log("Usuario autenticado:", user);
+      setUserData(user);
       fetchTareas();
     } else {
       console.log("No hay un usuario autenticado.");
@@ -77,13 +78,13 @@ function App() {
   };
 
   const fetchTareas = async () => {
-    const userId = user.id;
+    // const userId = user.id;
     const { data, error } = await supabase
 
       .from("TodoList")
       .select("*")
       .eq("delete", false) // Tareas que no están eliminadas.
-      .eq("userId", userId) // Tareas del usuario actual.
+      .eq("userId", userData.id) // Tareas del usuario actual.
       .order("dateTask", { ascending: true });
 
     if (error) {
@@ -100,15 +101,15 @@ function App() {
 
   const guardarTarea = async (id, value, category, dateTask) => {
     if (isSignedIn) {
-      const userId = user.id;
-      console.log(userId);
+      // const userId = user.id;
+      console.log(userData.Id);
       const newTaskData = {
         task: value,
         category: category == "none" ? "Otros" : category,
         dateTask: !dateTask ? "" : dateTask,
         isCompleted: false,
         delete: false,
-        userId: userId,
+        userId: userData.id,
       };
 
       if (editando) {
