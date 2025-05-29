@@ -17,7 +17,9 @@ const LoginAuth = () => {
       </SignedOut>
 
       <SignedIn>
-        <UserButton />
+        <div className="flex justify-center mt-2 ring-2 ring-amber-700 rounded-full h-7">
+          <UserButton />
+        </div>
       </SignedIn>
     </div>
   );
