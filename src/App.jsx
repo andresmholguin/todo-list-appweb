@@ -147,6 +147,7 @@ function App() {
           });
           return;
         } else {
+          fetchTareas();
           Swal.fire({
             icon: "success",
             title: "Updated!",
