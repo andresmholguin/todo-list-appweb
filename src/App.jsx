@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
+import Footer from "./components/footer";
 
 function App() {
   const [tareas, setTareas] = useState([]);
@@ -44,6 +45,7 @@ function App() {
         setEditando={setEditando}
         editando={editando}
       />
+      <Footer />
     </div>
   );
 }
