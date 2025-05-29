@@ -10,7 +10,7 @@ const LoginAuth = () => {
     <div className="flex justify-center p-2 rounded-full bg-Dark-900">
       <SignedOut>
         <SignInButton>
-          <button className="px-2 bg-amber-500 text-white rounded-lg hover:bg-amber-500/50 transition-all  cursor-pointer">
+          <button className="px-2 bg-gray-950 text-white rounded-lg hover:bg-gray-900 hover:shadow-sm hover:shadow-amber-700 transition-all  cursor-pointer">
             Iniciar sesión
           </button>
         </SignInButton>
