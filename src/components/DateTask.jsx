@@ -9,6 +9,7 @@ const DateTask = ({ dateTask, setDateTask }) => {
     const year = today.getFullYear();
     dateTask.setAttribute("min", `${year}-${month}-${day}`);
   }, []);
+
   return (
     <div className="">
       <input

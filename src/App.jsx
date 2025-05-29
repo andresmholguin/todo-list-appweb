@@ -47,7 +47,7 @@ function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [isSignedIn, user, userData, tareas]);
+  }, [isSignedIn, user, userData]);
 
   const handleRealtimePayload = (payload) => {
     console.log("Cambio detectado:", payload);
