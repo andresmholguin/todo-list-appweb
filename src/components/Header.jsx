@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import SelectCategory from "./SelectCategory.jsx";
 const Header = ({ guardarTarea, editando, setEditando }) => {
   const saveStorage = (e) => {
     e.preventDefault();
