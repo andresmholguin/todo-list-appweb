@@ -5,7 +5,7 @@ import { eliminarTarea } from "./utils/eliminarTarea";
 
 import Swal from "sweetalert2";
 
-const Main = ({ tareas, setEditando, editando }) => {
+const Main = ({ tareas, setEditando, editando, userData }) => {
   const alertDelete = (tarea) => {
     Swal.fire({
       theme: "dark",
@@ -58,7 +58,7 @@ const Main = ({ tareas, setEditando, editando }) => {
       <ul>
         {tareas.length === 0 ? (
           <li className="text-center text-lg">
-            Realiza el login para ver tus tareas
+            {userData ? "No tienes tareas pendientes" : "Inicia sesión"}
           </li>
         ) : (
           tareas.map((tarea) => (

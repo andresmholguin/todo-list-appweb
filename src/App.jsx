@@ -218,7 +218,12 @@ function App() {
         dateTask={dateTask}
         setDateTask={setDateTask}
       />
-      <Main tareas={tareas} setEditando={setEditando} editando={editando} />
+      <Main
+        tareas={tareas}
+        setEditando={setEditando}
+        editando={editando}
+        userData={userData}
+      />
     </div>
   );
 }
