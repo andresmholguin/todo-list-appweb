@@ -1,9 +1,11 @@
 import EditIcon from "./icons/EditIcon";
 import DeleteIcon from "./icons/DeleteIcon";
 
+import { eliminarTarea } from "./utils/eliminarTarea";
+
 import Swal from "sweetalert2";
 
-const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
+const Main = ({ tareas, setEditando, editando }) => {
   const alertDelete = (tarea) => {
     Swal.fire({
       theme: "dark",
@@ -56,7 +58,7 @@ const Main = ({ tareas, eliminarTarea, setEditando, editando }) => {
       <ul>
         {tareas.length === 0 ? (
           <li className="text-center text-lg">
-            Realiza el loggin para ver tus tareas
+            Realiza el login para ver tus tareas
           </li>
         ) : (
           tareas.map((tarea) => (

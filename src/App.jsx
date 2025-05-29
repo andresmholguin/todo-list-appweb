@@ -7,6 +7,8 @@ import Main from "./components/Main";
 import LoginAuth from "./components/LoginAuth";
 import { useUser } from "@clerk/clerk-react";
 
+// import { eliminarTarea } from "./components/utils/eliminarTarea";
+
 function App() {
   const [tareas, setTareas] = useState([]);
   const [editando, setEditando] = useState(false);
@@ -194,31 +196,12 @@ function App() {
    * @param {object} tarea - The task object to be soft-deleted.
    * @param {string} tarea.id - The ID of the task.
    */
-  const eliminarTarea = async (tarea) => {
-    console.log(tarea);
-
-    const { error } = await supabase
-      .from("TodoList")
-      .update({ delete: true })
-      .eq("id", tarea.id);
-    if (error) {
-      console.error("Error al eliminar la tarea:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Error deleting task: ${error.message}`,
-      });
-      return;
-    } else {
-      // UI update is handled by handleRealtimePayload
-    }
-  };
 
   return (
-    <div className=" bg-Dark-900 text-white p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
-      <div className="flex justify-end  ">
-        <p className="flex items-center  ">
-          {userData ? userData.fullName : "Don't User"}
+    <div className=" bg-Dark-900 text-white  p-4 lg:px-8 lg:w-[800px] w-[375px] rounded-xl border border-gray-500/60 shadow-2xl/70 shadow-Dark-400/50">
+      <div className="flex justify-end h-14 mb-3">
+        <p className="flex items-center ">
+          {userData ? userData.fullName : ""}
         </p>
         <LoginAuth />
       </div>
@@ -231,12 +214,7 @@ function App() {
         dateTask={dateTask}
         setDateTask={setDateTask}
       />
-      <Main
-        tareas={tareas}
-        eliminarTarea={eliminarTarea}
-        setEditando={setEditando}
-        editando={editando}
-      />
+      <Main tareas={tareas} setEditando={setEditando} editando={editando} />
     </div>
   );
 }
