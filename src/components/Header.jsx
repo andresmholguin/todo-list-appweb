@@ -15,19 +15,6 @@ const Header = ({ guardarTarea, editando, setEditando }) => {
     }
   };
 
-  // const editar = (e) => {
-  //   e.preventDefault();
-  //   const input = document.getElementById("input");
-  //   let value = input.value;
-  //   if (value) {
-  //     value = value.trim();
-  //     value = value.charAt(0).toUpperCase() + value.slice(1);
-  //     guardarTarea(value);
-  //     input.value = "";
-  //     setEditando(false);
-  //   }
-  // }
-
   useEffect(() => {
     const input = document.getElementById("input");
     const btnSubmit = document.getElementById("btnSubmit");
