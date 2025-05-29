@@ -54,7 +54,8 @@ function App() {
 
     switch (payload.eventType) {
       case "INSERT":
-        setTareas((prevTareas) => [...prevTareas, payload.new]);
+        fetchTareas();
+        // setTareas((prevTareas) => [...prevTareas, payload.new]);
         break;
       case "UPDATE":
         if (payload.new.delete === true) {
@@ -157,6 +158,7 @@ function App() {
       } else {
         // Insertar nueva tarea
         const { error } = await supabase.from("TodoList").insert([newTaskData]);
+
         if (error) {
           console.error("Error al guardar la tarea:", error);
           Swal.fire({
