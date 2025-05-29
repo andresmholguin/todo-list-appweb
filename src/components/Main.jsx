@@ -67,7 +67,7 @@ const Main = ({ tareas, setEditando, editando }) => {
               className="flex justify-between items-center bg-Dark-800 p-2 mb-4 rounded-lg transition-all duration-300"
             >
               <div>
-                <p className="text-lg overflow-hidden text-ellipsis">
+                <p className="text-lg overflow-hidden w-[220px] lg:w-[610px] text-ellipsis">
                   {tarea.task}
                 </p>
                 <div className="flex items-center text-xs text-gray-400 gap-2">
