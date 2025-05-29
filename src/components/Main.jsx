@@ -67,11 +67,11 @@ const Main = ({ tareas, setEditando, editando }) => {
               className="flex justify-between items-center bg-Dark-800 p-2 mb-4 rounded-lg transition-all duration-300"
             >
               <div>
-                <p className="text-lg overflow-hidden w-[220px] lg:w-[610px] text-ellipsis">
+                <p className="text-lg overflow-hidden w-[220px] mb-1 lg:w-[610px] text-ellipsis">
                   {tarea.task}
                 </p>
-                <div className="flex items-center text-xs text-gray-400 gap-2">
-                  <p>{tarea.dateTask || "Sin fecha"}</p>
+                <div className="flex items-center text-xs text-gray-400 gap-4">
+                  <p className="w-16">{tarea.dateTask || "Sin fecha"}</p>
                   <span
                     className={`${bgCategory(
                       tarea.category

@@ -47,7 +47,7 @@ function App() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [isSignedIn, user, userData]);
+  }, [isSignedIn, user, userData, tareas]);
 
   const handleRealtimePayload = (payload) => {
     console.log("Cambio detectado:", payload);
@@ -95,7 +95,9 @@ function App() {
         .select("*")
         .eq("userId", userDataId) // Tareas del usuario actual.
         .eq("delete", false) // Tareas que no están eliminadas.
-        .order("dateTask", { ascending: true });
+        .order("dateTask", { ascending: true })
+        .order("category", { ascending: true })
+        .order("task", { ascending: true });
 
       if (error) {
         console.error("Error al obtener las tareas:", error);
